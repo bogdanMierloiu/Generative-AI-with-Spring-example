@@ -1,0 +1,110 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+
+    <changeSet id="create-role-table" author="bogdan.mierloiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="role"/>
+            </not>
+        </preConditions>
+        <createTable tableName="role">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(64)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add-roles" author="bogdan.mierloiu">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="role"/>
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*)
+                FROM role;
+            </sqlCheck>
+        </preConditions>
+        <insert tableName="role">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="ADMIN"/>
+        </insert>
+        <insert tableName="role">
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="USER"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="create-app_user-table" author="bogdan.mierloiu">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="app_user"/>
+            </not>
+        </preConditions>
+        <createTable tableName="app_user">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(64)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_non_expired" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_non_locked" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="credentials_non_expired" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="app_user"
+                                 baseColumnNames="role_id"
+                                 constraintName="fk_user_role"
+                                 referencedTableName="role"
+                                 referencedColumnNames="id"/>
+        <createIndex tableName="app_user" indexName="idx_user_email">
+            <column name="email"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="add-admin-user" author="bogdan.mierloiu">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="app_user"/>
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM app_user;
+            </sqlCheck>
+        </preConditions>
+        <insert tableName="app_user">
+            <column name="id" valueNumeric="1"/>
+            <column name="email" value="bogdy.musiclover@gmail.com"/>
+            <column name="password" value="$2a$12$6mdrzCA.Ta3O.dT95o5szONt4Ja9x9H6MszudD2ZWgxdybV4wzGdG"/>
+            <column name="name" value="Bogdan"/>
+            <column name="surname" value="Mierloiu"/>
+            <column name="role_id" valueNumeric="1"/>
+            <column name="account_non_expired" valueBoolean="true"/>
+            <column name="account_non_locked" valueBoolean="true"/>
+            <column name="credentials_non_expired" valueBoolean="true"/>
+            <column name="enabled" valueBoolean="true"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

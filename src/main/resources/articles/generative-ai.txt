@@ -1,0 +1,5 @@
+While various applications of AI have come on the scene, generative AI technology is the darling transforming humans’ lives at the moment.
+
+“Regular” AI (also known as discriminative) is focused on distinguishing between types of informational input.
+
+Generative AI sounds like a creative form of AI, and it’s that in spades. It mimics human creativity, coming up with high-quality generated content (supposedly material that hasn’t existed, but that, practically, could amount to rephrased or repurposed information) — text, images, answers to questions, videos, songs, report summaries, diagrams, poems, marketing copy, webinars, essays, computer code, and you name it.

@@ -3,12 +3,22 @@
 
 # Log file
 *.log
+*.tmp
 
 # BlueJ files
 *.ctxt
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+
+# Java-Spring-Intelij
+.idea
+*.iws
+*.iml
+*.ipr
+.mvn
+target
+
 
 # Package Files #
 *.jar
